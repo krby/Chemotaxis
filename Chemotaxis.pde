@@ -1,30 +1,42 @@
 Bacteria[] colony;   
-Food mold;   
+ArrayList<Food> molds; 
+
+//setup variables
+int scrnSz = 400;
+
 void setup()   
 {
-	size(400, 400);
+	size(scrnSz, scrnSz);
 	colony = new Bacteria[100];
 	for (int i = 0; i < colony.length; i++)
 	{
-		colony[i] = new Bacteria (200, 200, (int)(Math.random()*255));
+		colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz), (int)(Math.random()*255));
 	}
-	mold = new Food (200, 200);
+
+	molds = new ArrayList<Food>(); 
+        molds.add(new Food((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz)));
 }
 
 void draw()
 {    
 	background(100);
+
 	for (int i = 0; i < colony.length; i++)
 	{
-		colony[i].move();
+		colony[i].move(molds.get(0).myX, molds.get(0).myY);
 		colony[i].show();
 	}
-	mold.show();
+        for (int i = 0; i < molds.size(); i++)
+        {
+	        Food aMold = molds.get(i);
+                aMold.show();
+        }
+          System.out.println (molds.get(0).myX);
 }
 
 void mousePressed()
 {
-	mold = new Food (mouseX, mouseY);
+	molds.add(new Food(mouseX, mouseY)); 
 }
 
 class Food 
@@ -60,17 +72,17 @@ class Bacteria
 		myClr = color(colorVal, colorVal/2, 50);
 	}
 
-	void move()
+	void move(int x, int y)
 	{
 		// myX = myX + (((int)(Math.random()*3))-1);
 		// myY = myY + (((int)(Math.random()*3))-1);
 
 		//follows mold
-		if (myX <= mold.myX)
+		if (myX <= x)
 		{
 			myX = myX + ((int)(Math.random()*3));   //if mold is to right, go go right
 		}
-		else if (myX == mold.myX)
+		else if (myX == x)
 		{
 			myX = myX + ((int)(Math.random()*5)-2);
 		}
@@ -79,11 +91,11 @@ class Bacteria
 			myX = myX + ((int)(Math.random()*3)-2);	
 		}
 		// in the y direction
-		if (myY <= mold.myY)
+		if (myY <= y)
 		{
 			myY = myY + ((int)(Math.random()*3));
 		}
-		else if (myY == mold.myY)
+		else if (myY == y)
 		{
 			myY = myY + ((int)(Math.random()*5)-2);
 		}	
