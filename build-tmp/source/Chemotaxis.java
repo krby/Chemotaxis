@@ -14,17 +14,23 @@ import java.io.IOException;
 
 public class Chemotaxis extends PApplet {
 
-Bacteria [] colony;
-Food mold;   
+Bacteria[] colony;   
+Food mold; 
+
+//setup variables
+int scrnSz = 400;
+
 public void setup()   
 {
-	size(400, 400);
+	size(scrnSz, scrnSz);
 	colony = new Bacteria[100];
 	for (int i = 0; i < colony.length; i++)
 	{
-		colony[i] = new Bacteria (200, 200, (int)(Math.random()*255));
+		colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz), (int)(Math.random()*255));
 	}
-	mold = new Food (200, 200);
+
+	mold = new Food ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz)); 
+        
 }
 
 public void draw()
@@ -32,10 +38,10 @@ public void draw()
 	background(100);
 	for (int i = 0; i < colony.length; i++)
 	{
-		colony[i].move();
+		colony[i].move(mold.myX, mold.myY);
 		colony[i].show();
 	}
-	mold.show();
+        mold.show();
 }
 
 public void mousePressed()
@@ -68,7 +74,8 @@ class Food
 
 class Bacteria    
 {     
-	int myX, myY, myClr;
+	int myX, myY;
+	int myClr;
 	Bacteria(int x, int y, int colorVal) 
 	{
 		myX = x;
@@ -76,36 +83,36 @@ class Bacteria
 		myClr = color(colorVal, colorVal/2, 50);
 	}
 
-	public void move()
+	public void move(int x, int y)
 	{
 		// myX = myX + (((int)(Math.random()*3))-1);
 		// myY = myY + (((int)(Math.random()*3))-1);
 
 		//follows mold
-		if (myX <= mold.myX)
+		if (myX <= x)
 		{
-			myX = myX + ((int)(Math.random()*3));   //if mold is to right, go go right
+			myX = myX + ((int)(Math.random()*5)-1)*(1/5);   //if mold is to right, go go right
 		}
-		else if (myX == mold.myX)
+		else if (myX == x)
 		{
-			myX = myX + ((int)(Math.random()*5)-2);
+			myX = myX + ((int)(Math.random()*5)-2)*(1/5);
 		}
 		else
 		{
-			myX = myX + ((int)(Math.random()*3)-2);	
+			myX = myX + ((int)(Math.random()*3)-3)*(1/5);	
 		}
 		// in the y direction
-		if (myY <= mold.myY)
+		if (myY <= y)
 		{
-			myY = myY + ((int)(Math.random()*3));
+			myY = myY + ((int)(Math.random()*5)-1)*(1/5);
 		}
-		else if (myY == mold.myY)
+		else if (myY == y)
 		{
-			myY = myY + ((int)(Math.random()*5)-2);
+			myY = myY + ((int)(Math.random()*5)-2)*(1/5);
 		}	
 		else 
 		{
-			myY = myY + ((int)(Math.random()*3)-2);
+			myY = myY + ((int)(Math.random()*3)-3)*(1/5);
 		}
 	}
 

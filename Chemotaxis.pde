@@ -58,7 +58,8 @@ class Food
 
 class Bacteria    
 {     
-	int myX, myY, myClr;
+	int myX, myY;
+	int myClr;
 	Bacteria(int x, int y, int colorVal) 
 	{
 		myX = x;
