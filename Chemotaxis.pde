@@ -1,4 +1,4 @@
-Bacteria [] colony;   
+Bacteria[] colony;   
 void setup()   
 {     
 	size (400, 400);
