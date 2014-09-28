@@ -33,6 +33,18 @@ void mousePressed()
 	mold = new Food (mouseX, mouseY);
 }
 
+void keyPressed()
+{
+        if (key == 'r')
+        {        
+                colony = new Bacteria[100];
+                for (int i = 0; i < colony.length; i++)
+                {
+                        colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz), (int)(Math.random()*255));
+                }
+        }  
+}
+
 class Food 
 {
 	int myX, myY;
