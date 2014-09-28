@@ -14,17 +14,25 @@ import java.io.IOException;
 
 public class Chemotaxis extends PApplet {
 
-Bacteria [] colony;
-Food mold;   
+Bacteria[] colony;   
+Food mold; 
+
+//setup variables
+int scrnSz = 400;
+
 public void setup()   
 {
-	size(400, 400);
+	size(scrnSz, scrnSz);
+	frameRate(30);
+
 	colony = new Bacteria[100];
 	for (int i = 0; i < colony.length; i++)
 	{
-		colony[i] = new Bacteria (200, 200, (int)(Math.random()*255));
+		colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz));
 	}
-	mold = new Food (200, 200);
+
+	mold = new Food ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz)); 
+        
 }
 
 public void draw()
@@ -32,10 +40,12 @@ public void draw()
 	background(100);
 	for (int i = 0; i < colony.length; i++)
 	{
-		colony[i].move();
+		colony[i].move(mold.myX, mold.myY);
+		colony[i].fullOfFood(mold.myX, mold.myY);
 		colony[i].show();
+		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have gotten to mold
 	}
-	mold.show();
+        mold.show();
 }
 
 public void mousePressed()
@@ -46,10 +56,12 @@ public void mousePressed()
 class Food 
 {
 	int myX, myY;
+	int mySize;
 	Food(int x, int y)
 	{
 		myX = x;
 		myY = y;
+		mySize = 50;
 	}
 
 	public void move()
@@ -58,54 +70,86 @@ class Food
 		myY = myY + (int)(Math.random()*3)-1;
 	}
 
+	public void eaten(int x, int y) // checks if eaten, if it is, then respawn
+	{
+		if (mySize == 0)
+		{
+			//respawn
+			myX = (int)(Math.random()*scrnSz);
+			myY = (int)(Math.random()*scrnSz);
+			mySize = 50;
+		}
+		else if (myX == x && myY == y)
+		{
+			mySize--;
+		}
+	}
+
 	public void show()
 	{
 		noStroke();
 		fill(0);
-		ellipse(myX, myY, 20, 20); 
+		ellipse(myX, myY, mySize, mySize); 
 	}
 }
 
 class Bacteria    
 {     
-	int myX, myY, myClr;
-	Bacteria(int x, int y, int colorVal) 
+	int myX, myY;
+	int myClr, clrVal;
+	int mySz;
+	Bacteria(int x, int y) 
 	{
 		myX = x;
 		myY = y;
-		myClr = color(colorVal, colorVal/2, 50);
+		clrVal = 255;
+		myClr = color(clrVal);
+		mySz = 5;
 	}
 
-	public void move()
+	public void fullOfFood(int x, int y) //if the bacteria has reached the food, start changing color
 	{
-		// myX = myX + (((int)(Math.random()*3))-1);
-		// myY = myY + (((int)(Math.random()*3))-1);
-
-		//follows mold
-		if (myX <= mold.myX)
+		if (myX == x && myY == y)
 		{
-			myX = myX + ((int)(Math.random()*3));   //if mold is to right, go go right
+			clrVal-=10;
+			myClr = color(clrVal);
+			mySz++;
 		}
-		else if (myX == mold.myX)
+	}
+
+	public void move(int x, int y)
+	{
+		//if it's at the mold, stay there
+		if (myX == x && myY == y)
 		{
-			myX = myX + ((int)(Math.random()*5)-2);
+			myX = x;
+			myY = y;
+		}
+		//follows mold		
+		if (myX <= x)
+		{
+			myX = myX + ((int)(Math.random()*5)-1);   //if mold is to right, go go right
+		}
+		else if (myX == x)
+		{
+			myX = myX + ((int)(Math.random()*7)-3);
 		}
 		else
 		{
-			myX = myX + ((int)(Math.random()*3)-2);	
+			myX = myX + ((int)(Math.random()*3)-3);	
 		}
 		// in the y direction
-		if (myY <= mold.myY)
+		if (myY <= y)
 		{
-			myY = myY + ((int)(Math.random()*3));
+			myY = myY + ((int)(Math.random()*5)-1);
 		}
-		else if (myY == mold.myY)
+		else if (myY == y)
 		{
-			myY = myY + ((int)(Math.random()*5)-2);
+			myY = myY + ((int)(Math.random()*7)-3);
 		}	
 		else 
 		{
-			myY = myY + ((int)(Math.random()*3)-2);
+			myY = myY + ((int)(Math.random()*3)-3);
 		}
 	}
 
@@ -113,7 +157,7 @@ class Bacteria
 	{
 		noStroke();
 		fill(myClr);
-		ellipse(myX, myY, 5, 5);
+		ellipse(myX, myY, mySz, mySz);
 	}
 }
   static public void main(String[] passedArgs) {
