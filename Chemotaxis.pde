@@ -44,10 +44,10 @@ void draw()
 		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have eaten mold
                 textAlign(CENTER, CENTER);
 	}
-        stroke(255);
+        fill(255);
         text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
         text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
-        text((int)colony[3].timeStarving/400, 200, 200);
+        text(int(colony[3].timeStarving/400), 200, 200);
         mold.show();
 }
 
@@ -146,10 +146,9 @@ class Bacteria
 
         void deadFromStarvation() //when dies, set live to false 
         {
-                if ((int)timeStarving/400 > 0) //sort of like they get 400 "seconds" to get food
+                if (int(timeStarving/400) > 0) //sort of like they get 400 "seconds" to get food
                 {
-                        //live = false;
-                        
+                        live = false;
                 } 
         }
 
