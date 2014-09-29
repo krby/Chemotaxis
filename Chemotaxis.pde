@@ -47,6 +47,7 @@ void draw()
         stroke(255);
         text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
         text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
+        text((int)colony[3].timeStarving/400, 200, 200);
         mold.show();
 }
 
@@ -143,7 +144,7 @@ class Bacteria
                 }
 	}
 
-        void deadFromStarvation() //when dies, set live to false and move off screen. 
+        void deadFromStarvation() //when dies, set live to false 
         {
                 if ((int)timeStarving/400 > 0) //sort of like they get 400 "seconds" to get food
                 {
