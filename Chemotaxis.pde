@@ -9,7 +9,7 @@ void setup()
 	size(scrnSz, scrnSz);
 	frameRate(30);
 
-	colony = new Bacteria[100];
+	colony = new Bacteria[20];
 	for (int i = 0; i < colony.length; i++)
 	{
 		colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz));
@@ -21,13 +21,16 @@ void setup()
 
 void draw()
 {    
-	background(100);
+	background(100, 100, 200);
 	for (int i = 0; i < colony.length; i++)
 	{
 		colony[i].move(mold.myX, mold.myY);
-		colony[i].fullOfFood(mold.myX, mold.myY);
+		colony[i].eating(mold.myX, mold.myY);
+                colony[i].deadFromStarvation();
 		colony[i].show();
-		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have gotten to mold
+                System.out.println("time starving of " + i); //how long are they usually starving for?
+                System.out.println(colony[i].timeStarving);
+		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have eaten mold
 	}
         mold.show();
 }
@@ -39,12 +42,13 @@ void mousePressed()
 
 void keyPressed()
 {
+        //resets the bacteria
         if (key == 'r')
         {        
-                colony = new Bacteria[100];
+                colony = new Bacteria[20];
                 for (int i = 0; i < colony.length; i++)
                 {
-                        colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz), (int)(Math.random()*255));
+                        colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz));
                 }
         }  
 }
@@ -66,11 +70,11 @@ class Food
 		myY = myY + (int)(Math.random()*3)-1;
 	}
 
-	void eaten(int x, int y) // checks if eaten, if it is, then respawn
+	void eaten(int x, int y) //checks if it has been eaten. if so, respawn. else, get smaller.
 	{
 		if (mySize == 0)
 		{
-			//respawn
+			//respawn food if eaten
 			myX = (int)(Math.random()*scrnSz);
 			myY = (int)(Math.random()*scrnSz);
 			mySize = 50;
@@ -92,8 +96,12 @@ class Food
 class Bacteria    
 {     
 	int myX, myY;
-	int myClr, clrVal;
+	int myClr, clrVal; //color
 	int mySz;
+
+        //related to life-cycle
+        int timeStarving;
+        boolean live, eatingFood; //eatingFood used for debugging
 	Bacteria(int x, int y) 
 	{
 		myX = x;
@@ -101,56 +109,76 @@ class Bacteria
 		clrVal = 255;
 		myClr = color(clrVal);
 		mySz = 5;
+
+                //life cycle 
+                live = true;
 	}
 
-	void fullOfFood(int x, int y) //if the bacteria has reached the food, start changing color
+	void eating(int x, int y) //if the bacteria has reached the food, start changing color
 	{
-		if (myX == x && myY == y)
-		{
-			clrVal-=10;
-			myClr = color(clrVal);
-			mySz++;
-		}
+                if (live == true)
+                timeStarving++;
+                {  
+		        if (myX == x && myY == y)
+		        {
+		        	clrVal-=10; //chnge color
+		        	mySz++; //incr size
+                                timeStarving = 0;
+		        }
+                }
 	}
+
+        void deadFromStarvation() //when dies, set live to false and move off screen. 
+        {
+                if ((int)timeStarving/400 > 0) //sort of like they get 400 "seconds" to get food
+                {
+                        live = false;
+                        
+                } 
+        }
 
 	void move(int x, int y)
 	{
-		//if it's at the mold, stay there
-		if (myX == x && myY == y)
-		{
-			myX = x;
-			myY = y;
-		}
-		//follows mold		
-		if (myX <= x)
-		{
-			myX = myX + ((int)(Math.random()*5)-1);   //if mold is to right, go go right
-		}
-		else if (myX == x)
-		{
-			myX = myX + ((int)(Math.random()*7)-3);
-		}
-		else
-		{
-			myX = myX + ((int)(Math.random()*3)-3);	
-		}
-		// in the y direction
-		if (myY <= y)
-		{
-			myY = myY + ((int)(Math.random()*5)-1);
-		}
-		else if (myY == y)
-		{
-			myY = myY + ((int)(Math.random()*7)-3);
-		}	
-		else 
-		{
-			myY = myY + ((int)(Math.random()*3)-3);
-		}
+                if (live == true)
+                {
+		        //if it's at the mold, stay there
+		        if (myX == x && myY == y)
+      		        {
+      			        myX = x;
+      			        myY = y;
+      		        }
+      		        //follows mold		
+      		        if (myX <= x)
+              		        {
+      	        		myX = myX + ((int)(Math.random()*5)-1);   //if mold is to right, go more towards right
+      	        	}
+      	        	else if (myX == x)
+      	        	{
+      	        		myX = myX + ((int)(Math.random()*7)-3);
+      	        	}
+      	        	else
+      	        	{
+      	        		myX = myX + ((int)(Math.random()*3)-3);	
+      	        	}
+      	        	// in the y direction
+	        	if (myY <= y)
+	        	{
+	        		myY = myY + ((int)(Math.random()*5)-1);
+	        	}
+	        	else if (myY == y)
+		        {
+		        	myY = myY + ((int)(Math.random()*7)-3);
+		        }        	
+		        else 
+		        {
+		        	myY = myY + ((int)(Math.random()*3)-3);
+		        }
+                }
 	}
 
 	void show()
 	{
+                myClr = color(clrVal);
 		noStroke();
 		fill(myClr);
 		ellipse(myX, myY, mySz, mySz);
