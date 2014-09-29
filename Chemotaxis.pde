@@ -22,7 +22,7 @@ void setup()
 int bactAlive, bactDead;
 void draw()
 {
-	background(100, 100, 200);
+	background(160, 100, 50);
         bactAlive = 0;
         bactDead = 0;
 	for (int i = 0; i < colony.length; i++)
@@ -41,14 +41,15 @@ void draw()
 		colony[i].show();
 //                System.out.println("time starving of " + i); //how long are they usually starving for?
 //                System.out.println(colony[i].timeStarving);
+//                System.out.println(colony[i].amtFood);
 		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have eaten mold
                 textAlign(CENTER, CENTER);
 	}
+        mold.show();
+
         fill(255);
         text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
         text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
-        text(int(colony[3].timeStarving/400), 200, 200);
-        mold.show();
 }
 
 void mousePressed()
@@ -104,8 +105,11 @@ class Food
 	void show()
 	{
 		noStroke();
-		fill(0);
-		ellipse(myX, myY, mySize, mySize); 
+		fill(0, 100);
+		ellipse(myX, myY, mySize, mySize);
+                textAlign(CENTER, CENTER);
+                fill(255, 100);
+                text("food", myX, myY);
 	}
 }
 
@@ -116,7 +120,7 @@ class Bacteria
 	int mySz;
 
         //related to life-cycle
-        int timeStarving;
+        int timeStarving, amtFood;
         boolean live, eatingFood; //eatingFood used for debugging
 	Bacteria(int x, int y) 
 	{
@@ -139,6 +143,7 @@ class Bacteria
 		        {
 		        	clrVal-=10; //chnge color
 		        	mySz++; //incr size
+                                amtFood++;
                                 timeStarving = 0;
 		        }
                 }
@@ -146,7 +151,7 @@ class Bacteria
 
         void deadFromStarvation() //when dies, set live to false 
         {
-                if (int(timeStarving/400) > 0) //sort of like they get 400 "seconds" to get food
+                if (int(timeStarving/(400+(amtFood*10))) > 0) //sort of like they get 400 "seconds" to get food *last slighty longer if they have eaten before
                 {
                         live = false;
                 } 
