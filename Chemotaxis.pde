@@ -28,8 +28,8 @@ void draw()
 		colony[i].eating(mold.myX, mold.myY);
                 colony[i].deadFromStarvation();
 		colony[i].show();
-                System.out.println("time starving of " + i); //how long are they usually starving for?
-                System.out.println(colony[i].timeStarving);
+//                System.out.println("time starving of " + i); //how long are they usually starving for?
+//                System.out.println(colony[i].timeStarving);
 		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have eaten mold
 	}
         mold.show();
