@@ -147,7 +147,7 @@ class Bacteria
         {
                 if ((int)timeStarving/400 > 0) //sort of like they get 400 "seconds" to get food
                 {
-                        live = false;
+                        //live = false;
                         
                 } 
         }
