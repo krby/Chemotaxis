@@ -19,19 +19,34 @@ void setup()
         
 }
 
+int bactAlive, bactDead;
 void draw()
-{    
+{
 	background(100, 100, 200);
+        bactAlive = 0;
+        bactDead = 0;
 	for (int i = 0; i < colony.length; i++)
 	{
 		colony[i].move(mold.myX, mold.myY);
 		colony[i].eating(mold.myX, mold.myY);
                 colony[i].deadFromStarvation();
+                if (colony[i].live == true)
+                {
+                        bactAlive++;
+                }  
+                else
+                {
+                        bactDead++;  
+                }  
 		colony[i].show();
 //                System.out.println("time starving of " + i); //how long are they usually starving for?
 //                System.out.println(colony[i].timeStarving);
 		mold.eaten(colony[i].myX, colony[i].myY); //checks if bacteria have eaten mold
+                textAlign(CENTER, CENTER);
 	}
+        stroke(255);
+        text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
+        text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
         mold.show();
 }
 
