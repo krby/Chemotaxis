@@ -146,7 +146,7 @@ class Bacteria
         }
       }
     }
-
+  }  
     void deadFromStarvation() //when dies, set live to false 
     {
       if (int(timeStarving/(400+(amtFood*10))) > 0) //sort of like they get 400 "seconds" to get food *last slighty longer if they have eaten before
