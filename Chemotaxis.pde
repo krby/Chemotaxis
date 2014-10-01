@@ -2,9 +2,24 @@
 Bacteria[] colony;
 Food mold; 
 
+//js hacking haha
+var bactNum = function()
+{
+  prompt("Enter width of screen (1-100)");
+  if (bactNum >= 1 && bactNum <= 100) //checks if user input is int
+  {
+    int amtBact = (int)bactNum;
+  }
+  else 
+  {
+    alert("1-100, inclusive. try again");
+    bactNum()
+  }
+}
+
 //setup variables
 int scrnSz = 400;
-int amtBact = 2;
+//int amtBact = 2;
 
 void setup()
 {
@@ -34,7 +49,8 @@ void draw()
     if (colony[i].live == true)
     {
       bactAlive++;
-    } else
+    } 
+    else
     {
       bactDead++;
     }  
@@ -50,11 +66,11 @@ void draw()
   fill(255);
   text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
   text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
-  
+
   if (bactDead == amtBact)
   {
     text ("Press r to restart!", scrnSz/2, scrnSz/2);
-  }  
+  }
 }
 
 void mousePressed()
@@ -100,7 +116,8 @@ class Food
       myX = (int)(Math.random()*scrnSz);
       myY = (int)(Math.random()*scrnSz);
       mySize = 50;
-    } else if (myX == x && myY == y)
+    } 
+    else if (myX == x && myY == y)
     {
       mySize--;
     }
@@ -154,58 +171,63 @@ class Bacteria
       }
     }
   }  
-    void dieBcNature() //when dies, set live to false 
+  void dieBcNature() //when dies, set live to false 
+  {
+    if (int(timeStarving/(400+(amtFood*10))) > 0) //sort of like they get 400 "seconds" to get food *last slighty longer if they have eaten before
     {
-      if (int(timeStarving/(400+(amtFood*10))) > 0) //sort of like they get 400 "seconds" to get food *last slighty longer if they have eaten before
-      {
-        live = false;
-      }
-      if (amtFood >= 100)
-      {
-        live = false;
-      }
+      live = false;
     }
-
-    void move(int x, int y)
+    if (amtFood >= 100)
     {
-      if (live == true)
-      {
-        //if it's at the mold, stay there
-        if (myX == x && myY == y)
-        {
-          myX = x;
-          myY = y;
-        }
-        //follows mold    
-        if (myX <= x)
-        {
-          myX = myX + ((int)(Math.random()*5)-1);   //if mold is to right, go more towards right
-        } else if (myX == x)
-        {
-          myX = myX + ((int)(Math.random()*7)-3);
-        } else
-        {
-          myX = myX + ((int)(Math.random()*3)-3);
-        }
-        // in the y direction
-        if (myY <= y)
-        {
-          myY = myY + ((int)(Math.random()*5)-1);
-        } else if (myY == y)
-        {
-          myY = myY + ((int)(Math.random()*7)-3);
-        } else 
-        {
-          myY = myY + ((int)(Math.random()*3)-3);
-        }
-      }
-    }
-
-    void show()
-    {
-      myClr = color(clrVal);
-      stroke(100);
-      fill(myClr);
-      ellipse(myX, myY, mySz, mySz);
+      live = false;
     }
   }
+
+  void move(int x, int y)
+  {
+    if (live == true)
+    {
+      //if it's at the mold, stay there
+      if (myX == x && myY == y)
+      {
+        myX = x;
+        myY = y;
+      }
+      //follows mold    
+      if (myX <= x)
+      {
+        myX = myX + ((int)(Math.random()*5)-1);   //if mold is to right, go more towards right
+      } 
+      else if (myX == x)
+      {
+        myX = myX + ((int)(Math.random()*7)-3);
+      } 
+      else
+      {
+        myX = myX + ((int)(Math.random()*3)-3);
+      }
+      // in the y direction
+      if (myY <= y)
+      {
+        myY = myY + ((int)(Math.random()*5)-1);
+      } 
+      else if (myY == y)
+      {
+        myY = myY + ((int)(Math.random()*7)-3);
+      } 
+      else 
+      {
+        myY = myY + ((int)(Math.random()*3)-3);
+      }
+    }
+  }
+
+  void show()
+  {
+    myClr = color(clrVal);
+    stroke(100);
+    fill(myClr);
+    ellipse(myX, myY, mySz, mySz);
+  }
+}
+
