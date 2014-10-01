@@ -5,10 +5,10 @@ Food mold;
 //--------js hacking haha
 var bactNum = function()
 {
-  prompt("Enter width of screen (1-100)");
-  if (bactNum >= 1 && bactNum <= 100) //checks if user input is int
+  var num = prompt("Enter number of bacteria (1-100)");
+  if (num >= 1 && num <= 100) //checks if user input is int
   {
-    int amtBact = (int)bactNum;
+    int amtBact = (int)num;
   }
   else 
   {
