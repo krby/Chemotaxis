@@ -5,6 +5,23 @@
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="styles.css">
 		<script src="processing.js"></script>
+		<style>
+			footer {
+				margin: 10px;
+			}
+			p {
+				font-family: monospace;
+				font-weight: bold;
+			}
+			div {
+				width: 300px;
+				padding: 35px;
+				border: 5px dashed black;
+				margin: auto;
+				top: 30%;
+				left: 50%;
+			}
+		</style>
 	</head>
 	<body>
 		<header>
@@ -13,15 +30,17 @@
 			<section id="content">
 				<canvas id="Chemotaxis" data-processing-sources="Chemotaxis.pde">
 				</canvas>
-		    </section>
-	    <footer>
-		    Bacteria needs to eat every ~40 seconds, depending on size. Otherwise they die. 
-	    </footer>
-	    <footer>
-	    	They will also die if they eat too much. Die.
-	    </footer>
-	    <footer>
-	    	click to place food (only 1). hit r to restart. 
-	    </footer>
+			</section>
+		<p>
+			Click to place food. Hit r to restart bacteria.
+		</p>
+		<!-- BOX -->
+		<div> 
+			<p>background info</p>
+			<footer>Bacteria needs to eat every ~40 seconds, depending on size.</footer>
+			<footer>Otherwise they die.</footer>
+			<footer>They will also die if they eat too much.</footer>
+			<footer>Good luck.</footer>
+		</div>
 	</body>
 </html>
