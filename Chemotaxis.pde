@@ -1,15 +1,17 @@
+//info: bacteria simulates bacteria by doing stuff. they chase food and eat it. the more they eat, the larger they grow. food respawns on its own
 Bacteria[] colony;
 Food mold; 
 
 //setup variables
 int scrnSz = 400;
+int amtBact = 2;
 
 void setup()
 {
   size(scrnSz, scrnSz);
   frameRate(30);
 
-  colony = new Bacteria[20];
+  colony = new Bacteria[amtBact];
   for (int i = 0; i < colony.length; i++)
   {
     colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz));
@@ -28,7 +30,7 @@ void draw()
   {
     colony[i].move(mold.myX, mold.myY);
     colony[i].eating(mold.myX, mold.myY);
-    colony[i].deadFromStarvation();
+    colony[i].dieBcNature();
     if (colony[i].live == true)
     {
       bactAlive++;
@@ -48,6 +50,11 @@ void draw()
   fill(255);
   text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
   text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
+  
+  if (bactDead == amtBact)
+  {
+    text ("Press r to restart!", scrnSz/2, scrnSz/2);
+  }  
 }
 
 void mousePressed()
@@ -60,7 +67,7 @@ void keyPressed()
   //resets the bacteria
   if (key == 'r')
   {
-    colony = new Bacteria[20];
+    colony = new Bacteria[amtBact];
     for (int i = 0; i < colony.length; i++)
     {
       colony[i] = new Bacteria ((int)(Math.random()*scrnSz), (int)(Math.random()*scrnSz));
@@ -106,7 +113,7 @@ class Food
     ellipse(myX, myY, mySize, mySize);
     textAlign(CENTER, CENTER);
     fill(255, 100);
-    text("food", myX, myY);
+    text("food", myX+1, myY-2);
   }
 }
 
@@ -147,9 +154,13 @@ class Bacteria
       }
     }
   }  
-    void deadFromStarvation() //when dies, set live to false 
+    void dieBcNature() //when dies, set live to false 
     {
       if (int(timeStarving/(400+(amtFood*10))) > 0) //sort of like they get 400 "seconds" to get food *last slighty longer if they have eaten before
+      {
+        live = false;
+      }
+      if (amtFood >= 100)
       {
         live = false;
       }
@@ -193,7 +204,7 @@ class Bacteria
     void show()
     {
       myClr = color(clrVal);
-      noStroke();
+      stroke(100);
       fill(myClr);
       ellipse(myX, myY, mySz, mySz);
     }
