@@ -2,7 +2,7 @@
 Bacteria[] colony;
 Food mold; 
 
-//js hacking haha
+//--------js hacking haha
 var bactNum = function()
 {
   prompt("Enter width of screen (1-100)");
@@ -16,6 +16,8 @@ var bactNum = function()
     bactNum()
   }
 }
+bactNum();
+//--------end js 
 
 //setup variables
 int scrnSz = 400;
