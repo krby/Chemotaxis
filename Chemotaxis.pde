@@ -1,27 +1,10 @@
 //info: bacteria simulates bacteria by doing stuff. they chase food and eat it. the more they eat, the larger they grow. food respawns on its own
 Bacteria[] colony;
-Food mold; 
-
-//--------js hacking haha
-var bactNum = function()
-{
-  var num = prompt("Enter number of bacteria (1-100)");
-  if (num >= 1 && num <= 100) //checks if user input is int
-  {
-    int amtBact = (int)num;
-  }
-  else 
-  {
-    alert("1-100, inclusive. try again");
-    bactNum()
-  }
-}
-bactNum();
-//--------end js 
+Food mold;  
 
 //setup variables
 int scrnSz = 400;
-//int amtBact = 2;
+int amtBact = 2;
 
 void setup()
 {
