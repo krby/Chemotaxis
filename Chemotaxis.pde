@@ -4,7 +4,7 @@ Food mold;
 
 //setup variables
 int scrnSz = 400;
-int amtBact = 2;
+int amtBact = 30;
 
 void setup()
 {
@@ -48,12 +48,13 @@ void draw()
   }
   mold.show();
 
-  fill(255);
+  fill(0);
   text("Bacteria left: " + bactAlive, scrnSz-60, scrnSz-20);
   text("Bacteria dead: " + bactDead, 460-scrnSz, scrnSz-20);
 
   if (bactDead == amtBact)
   {
+    fill (0);
     text ("Press r to restart!", scrnSz/2, scrnSz/2);
   }
 }
@@ -98,9 +99,9 @@ class Food
     if (mySize == 0)
     {
       //respawn food if eaten
+      mySize = 50;
       myX = (int)(Math.random()*scrnSz);
       myY = (int)(Math.random()*scrnSz);
-      mySize = 50;
     } 
     else if (myX == x && myY == y)
     {
