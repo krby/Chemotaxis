@@ -140,7 +140,7 @@ class Bacteria
     myX = x;
     myY = y;
     clrVal = 255;
-    myClr = color(clrVal);
+    myClr = color(clrVal, sin(clrVal/2), clrVal+1);
     mySz = 5;
 
     //life cycle 
@@ -208,7 +208,6 @@ class Bacteria
 
     public void show()
     {
-      myClr = color(clrVal);
       noStroke();
       fill(myClr);
       ellipse(myX, myY, mySz, mySz);
