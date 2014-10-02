@@ -7,13 +7,14 @@
 		<script src="processing.js"></script>
 		<style>
 			footer {
-				margin: 10px;
+				margin: 1px;
 			}
 			p {
 				font-family: monospace;
 				font-weight: bold;
+				padding-bottom: 40px;
 			}
-			div {
+			div.box {
 				width: 300px;
 				padding: 35px;
 				border: 5px dashed black;
@@ -31,12 +32,10 @@
 				<canvas id="Chemotaxis" data-processing-sources="Chemotaxis.pde">
 				</canvas>
 			</section>
-		<p>
-			Click to place food. Hit r to restart bacteria.
-		</p>
 		<!-- BOX -->
-		<div> 
-			<p>background info</p>
+		<div class = "box"> 
+			<p>Click to place food. Hit r to restart bacteria.</p>
+			<footer><b>background info</b></footer>
 			<footer>Bacteria needs to eat every ~40 seconds, depending on size.</footer>
 			<footer>Otherwise they die.</footer>
 			<footer>They will also die if they eat too much.</footer>
